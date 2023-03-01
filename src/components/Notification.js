@@ -14,14 +14,17 @@ const Notification = () => {
     console.log("handler");
   };
 
-  const userPost = post.filter((item) => item.userId === user[0].id);
+  const userPost = post.filter((item) => item.userId === user.id);
   return (
     <button
       className="  text-start font-semibold whitespace-nowrap text-base"
       onClick={handlerClick}
     >
       <h3>
-        Posts <span className="shadow  rounded-lg  text-xl text-orange-900 p-1">{userPost.length}</span>
+        Posts
+        <span className="shadow  rounded-lg  text-xl text-orange-900 p-1">
+          {userPost.length}
+        </span>
       </h3>
     </button>
   );

@@ -4,25 +4,26 @@ import validationSchema from "../../validation/createPostValidation";
 import validationAlert from "../../assets/validationAlert.svg";
 import message from "../../assets/message.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewPost} from "../../post/postSlice";
 import { selectUser } from "../../user/userSlice";
+import { updatePost } from "../../post/postSlice";
 
-const Form = () => {
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch()
+const UpdatePostForm = ({ title, body, id }) => {
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.posts.error);
+  const user = useSelector(selectUser);
+  const postId = parseInt(id);
   return (
     <Formik
-      initialValues={{ title: "", body: "" }}
+      initialValues={{ title, body }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         const data = {
+          id: postId,
           title: values.title,
           body: values.body,
           userId: user.id,
-        }
-        dispatch(addNewPost(
-          data
-        ))
+        };
+        dispatch(updatePost(data));
       }}
     >
       {(formik) => (
@@ -30,7 +31,7 @@ const Form = () => {
           className="flex flex-col gap-2 mt-10 w-4/4"
           onSubmit={formik.handleSubmit}
         >
-          <div className=" w-3/4">
+          <div className="w-3/4">
             <label
               htmlFor="title"
               className="block mb-2 text-xl font-medium text-gray-900 light:text-white"
@@ -90,8 +91,14 @@ const Form = () => {
               type="submit"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
-              Create New Post
+              Update Post
             </button>
+
+            {error && (
+              <div className="flex w-2/4 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 light:bg-gray-800 light:text-red-400 light:border-red-800">
+                {error}
+              </div>
+            )}
           </div>
         </form>
       )}
@@ -99,4 +106,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default UpdatePostForm;

@@ -6,6 +6,7 @@ import Rectangle from "../assets/rectangle.svg";
 import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
 import UserExcerpt from "./features/UserExcerpt";
+import { Link } from "react-router-dom";
 
 const navigation = [
   {
@@ -29,12 +30,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded mt-5 w-75  light:bg-gray-900">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="/" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img src={logo} className="h-6 mr-3 sm:h-9" alt="Blog Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap ">
             Arbit Blog
           </span>
-        </a>
+        </Link>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
@@ -71,19 +72,17 @@ const Navbar = () => {
               />
             ))}
             <button onClick={handlerClick}>
-              {user.map((item) => (
-                <div key={item.id}>
-                  {!isHidden && (
-                    <img
-                      src={item.img_url}
-                      alt=""
-                      width={"35px"}
-                      className={"rounded-full"}
-                    />
-                  )}
-                  {isHidden && <UserExcerpt data={user} />}
-                </div>
-              ))}
+              <div key={user.id}>
+                {!isHidden && (
+                  <img
+                    src={user.img_url}
+                    alt=""
+                    width={"35px"}
+                    className={"rounded-full"}
+                  />
+                )}
+                {isHidden && <UserExcerpt data={user} />}
+              </div>
             </button>
           </div>
         </div>
